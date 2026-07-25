@@ -126,8 +126,8 @@ function pinoOtlpTransport(options) {
 
     try {
       await postWithRetry(endpoint, body)
-    } catch (error) {
-      console.error('Failed to send OTLP logs:', error)
+    } catch {
+      /* drop on the floor — logs already on stdout, sidecar will retry */
     }
   }
 
@@ -135,9 +135,7 @@ function pinoOtlpTransport(options) {
     if (flushTimer) return
     flushTimer = setTimeout(() => {
       flushTimer = null
-      flushBatch().catch((err) => {
-        console.error('OTLP flush error:', err)
-      })
+      flushBatch().catch(() => {})
     }, 5000)
   }
 
@@ -155,9 +153,7 @@ function pinoOtlpTransport(options) {
               clearTimeout(flushTimer)
               flushTimer = null
             }
-            flushBatch().catch((err) => {
-              console.error('OTLP flush error:', err)
-            })
+            flushBatch().catch(() => {})
           } else {
             scheduleFlush()
           }
@@ -179,9 +175,7 @@ function pinoOtlpTransport(options) {
       clearTimeout(flushTimer)
       flushTimer = null
     }
-    flushBatch().catch((err) => {
-      console.error('OTLP shutdown flush error:', err)
-    })
+    flushBatch().catch(() => {})
   }
 
   process.on('SIGTERM', handleShutdown)

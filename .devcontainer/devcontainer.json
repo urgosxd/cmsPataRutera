@@ -31,7 +31,9 @@
       "packages": "git,wget,curl,ripgrep,xclip,sudo,iputils-ping,procps"
     },
     "ghcr.io/danzilberdan/devcontainers/opencode:0": {},
-    "ghcr.io/s1n7ax/devcontainer-features/neovim:2": {}
+    "ghcr.io/duduribeiro/devcontainer-features/neovim:1": {
+            "version": "stable"
+        }
   },
     "containerEnv": {
     "PNPM_HOME": "/home/ubuntu/.local/share/pnpm"

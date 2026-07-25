@@ -63,6 +63,12 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Pino transport .cjs files — required by pino's worker-thread transport system.
+# These are dynamically required at runtime and are NOT bundled by webpack.
+# Without them, pino's worker crashes with "the worker has exited".
+COPY --from=builder --chown=nextjs:nodejs /app/src/events/tracing/pinoOtlpTransport.cjs ./src/events/tracing/pinoOtlpTransport.cjs
+COPY --from=builder --chown=nextjs:nodejs /app/src/events/tracing/pinoPrettyTransport.cjs ./src/events/tracing/pinoPrettyTransport.cjs
+
 USER nextjs
 
 EXPOSE 3000

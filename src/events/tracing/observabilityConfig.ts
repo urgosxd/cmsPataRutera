@@ -36,8 +36,8 @@ export interface ObservabilityConfig {
   logging: {
     level: string // DEBUG (dev), INFO (test/prod)
     format: 'json' | 'pretty' // pretty (dev), json (test/prod)
-    otlpPush: boolean // true (prod), false (dev/test) — push logs to Collector
-    otlpEndpoint: string // logs OTLP endpoint (only used if otlpPush=true)
+    otlpPush: boolean // false everywhere — pino uses stdout JSON in prod, sidecar ships to Collector
+    otlpEndpoint: string // logs OTLP endpoint (only honored if otlpPush=true)
   }
 }
 
@@ -153,11 +153,8 @@ const MODE_DEFAULTS: Record<RuntimeMode, Omit<ObservabilityConfig, 'mode'>> = {
     logging: {
       level: envOrFallback('LOG_LEVEL', 'info'),
       format: 'json',
-      otlpPush: true,
-      otlpEndpoint: envOrFallback(
-        'OTEL_EXPORTER_OTLP_LOGS_ENDPOINT',
-        `${envOrFallback('OTEL_EXPORTER_OTLP_ENDPOINT', 'http://otel-collector:4318')}/v1/logs`,
-      ),
+      otlpPush: false,
+      otlpEndpoint: '',
     },
   },
 

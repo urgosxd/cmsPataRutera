@@ -27,6 +27,12 @@ const nextConfig = {
     return config
   },
   output: 'standalone',
+  outputFileTracingIncludes: {
+    'src/instrumentation.ts': [
+      './src/events/tracing/pinoOtlpTransport.cjs',
+      './src/events/tracing/pinoPrettyTransport.cjs',
+    ],
+  },
   images: {
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
