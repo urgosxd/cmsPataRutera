@@ -30,6 +30,9 @@
     "ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
       "packages": "git,wget,curl,ripgrep,xclip,sudo,iputils-ping,procps"
     },
+    "ghcr.io/devcontainers/features/docker-from-docker:1": {
+      "version": "27"
+    },
     "ghcr.io/danzilberdan/devcontainers/opencode:0": {},
     "ghcr.io/duduribeiro/devcontainer-features/neovim:1": {
             "version": "stable"
@@ -47,6 +50,6 @@
   // Ports forwarded by the devcontainer CLI.
   "forwardPorts": [
     3000,
-    5433
+    5432
   ],
 }

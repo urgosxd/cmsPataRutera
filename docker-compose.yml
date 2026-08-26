@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   payload:
@@ -21,8 +21,10 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - '3001:3000'
-      - '9464:9464'
+      - "3000:3000"
+      - "9464:9464"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - default
       - observability
@@ -33,13 +35,13 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql
     ports:
-      - '5433:5432'
+      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: payload
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres -d payload']
+      test: ["CMD-SHELL", "pg_isready -U postgres -d payload"]
       interval: 10s
       timeout: 5s
       retries: 5
